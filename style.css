@@ -1,0 +1,57 @@
+/* ============================================================
+   File ini isinya cuma beberapa "helper class" pendek supaya
+   HTML tidak terlalu panjang. Semua warna utama tetap diatur
+   dari tailwind.config di index.html (variabel primary).
+   ============================================================ */
+
+.skill-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background-color: #F3F4F6;
+  color: #374151;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.project-card {
+  background-color: #ffffff;
+  border: 1px solid #F3F4F6;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.project-card:hover {
+  box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.form-field {
+  width: 100%;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.form-field:focus {
+  border-color: #4F46E5;
+  /* samakan manual dengan warna primary kalau diganti */
+}
+
+/* Keyboard focus terlihat jelas (aksesibilitas) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #4F46E5;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
