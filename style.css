@@ -1,9 +1,3 @@
-/* ============================================================
-   File ini isinya cuma beberapa "helper class" pendek supaya
-   HTML tidak terlalu panjang. Semua warna utama tetap diatur
-   dari tailwind.config di index.html (variabel primary).
-   ============================================================ */
-
 .skill-badge {
   padding: 0.5rem 1rem;
   border-radius: 999px;
@@ -38,10 +32,8 @@
 
 .form-field:focus {
   border-color: #4F46E5;
-  /* samakan manual dengan warna primary kalau diganti */
 }
 
-/* Keyboard focus terlihat jelas (aksesibilitas) */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,

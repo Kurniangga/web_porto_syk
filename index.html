@@ -6,16 +6,12 @@
 <title>Labib — Portfolio</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
-  // ============================================================
-  //  GANTI WARNA DI SINI SAJA — otomatis kepakai di semua elemen
-  //  yang pakai class bg-primary / text-primary / border-primary
-  // ============================================================
   tailwind.config = {
     theme: {
       extend: {
         colors: {
-          primary: "#4F46E5",       // warna utama (tombol, aksen, link)
-          "primary-dark": "#4338CA" // versi gelap untuk hover
+          primary: "#4F46E5",       
+          "primary-dark": "#4338CA" 
         }
       }
     }
@@ -29,44 +25,35 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body class="text-gray-800">
-
-  <!-- ======================================================
-       NAVBAR — ganti "Labib" dan link menu sesuai kebutuhan
-  ======================================================= -->
   <header class="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur border-b border-gray-100">
     <div class="max-w-6xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
       <a href="#home" class="font-heading font-bold text-lg text-gray-900">Labib<span class="text-primary">.</span></a>
-
-      <!-- Menu desktop -->
       <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
         <a href="#about" class="hover:text-primary transition">Tentang</a>
+        <a href="#experience" class="hover:text-primary transition">Pengalaman</a>
         <a href="#skills" class="hover:text-primary transition">Skills</a>
         <a href="#projects" class="hover:text-primary transition">Projects</a>
         <a href="#contact" class="hover:text-primary transition">Kontak</a>
       </nav>
-
-      <a href="#contact" class="hidden md:inline-block bg-primary hover:bg-primary-dark text-white text-sm font-medium px-5 py-2 rounded-full transition">
-        Hubungi Saya
-      </a>
-
-      <!-- Tombol menu mobile -->
+      <div class="hidden md:block">
+        <a href="/assets/CV_LabibFauzi_Software_Workshop.pdf" download
+           class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-sm font-medium px-4 py-2 rounded-lg transition">
+          Download Resume
+        </a>
+      </div>
       <button id="menuBtn" class="md:hidden text-2xl leading-none">☰</button>
     </div>
-
-    <!-- Menu mobile (dropdown) -->
     <nav id="mobileMenu" class="hidden md:hidden flex-col gap-1 px-5 pb-4 text-sm font-medium bg-white border-t border-gray-100">
       <a href="#about" class="block py-2">Tentang</a>
+      <a href="#experience" class="block py-2">Pengalaman</a>
       <a href="#skills" class="block py-2">Skills</a>
       <a href="#projects" class="block py-2">Projects</a>
       <a href="#contact" class="block py-2">Kontak</a>
+      <a href="/assets/CV_LabibFauzi_Software_Workshop.pdf" download class="block py-2 text-primary font-semibold">Download Resume</a>
     </nav>
   </header>
 
   <main class="pt-16">
-
-    <!-- ======================================================
-         HERO — ganti judul, deskripsi, dan foto (opsional)
-    ======================================================= -->
     <section id="home" class="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28 grid sm:grid-cols-2 gap-10 items-center">
       <div>
         <p class="text-primary font-medium mb-3">Halo, saya 👋</p>
@@ -77,24 +64,21 @@
           Membangun aplikasi web dan sistem sederhana dari kuliah, organisasi, hingga proyek pribadi.
         </p>
         <div class="flex flex-wrap gap-3">
-          <a href="#projects" class="bg-primary hover:bg-primary-dark text-white font-medium px-6 py-3 rounded-full transition">
-            Lihat Projects
+          <a href="/assets/CV_LabibFauzi_Software_Workshop.pdf" download
+             class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-sm font-medium px-5 py-3 rounded-lg transition">
+            Download Resume
           </a>
-          <a href="#contact" class="border border-gray-300 hover:border-primary hover:text-primary font-medium px-6 py-3 rounded-full transition">
-            Hubungi Saya
+          <a href="#projects"
+             class="inline-flex items-center gap-2 border border-gray-200 hover:border-primary hover:text-primary text-sm font-medium px-5 py-3 rounded-lg transition">
+            Lihat Projects
           </a>
         </div>
       </div>
-
-      <!-- Ganti src di bawah dengan foto kamu, atau hapus div ini kalau tidak perlu -->
       <div class="bg-gray-100 rounded-2xl aspect-square flex items-center justify-center text-gray-400 text-sm">
         Foto / Ilustrasi di sini
       </div>
     </section>
 
-    <!-- ======================================================
-         ABOUT — ganti paragraf sesuai cerita kamu
-    ======================================================= -->
     <section id="about" class="bg-gray-50 py-20">
       <div class="max-w-4xl mx-auto px-5 sm:px-8 text-center">
         <h2 class="font-heading text-3xl font-bold text-gray-900 mb-4">Tentang Saya</h2>
@@ -108,10 +92,47 @@
       </div>
     </section>
 
-    <!-- ======================================================
-         SKILLS — tinggal tambah/hapus <span> di dalam list
-    ======================================================= -->
-    <section id="skills" class="py-20">
+    <section id="experience" class="py-20">
+      <div class="max-w-3xl mx-auto px-5 sm:px-8">
+        <h2 class="font-heading text-3xl font-bold text-gray-900 mb-2 text-center">Pengalaman</h2>
+        <p class="text-gray-500 text-center mb-12">Perjalanan singkat di organisasi dan proyek kampus</p>
+
+        <ol class="relative border-l-2 border-gray-200 ml-3">
+
+          <li class="mb-10 ml-6">
+            <span class="absolute -left-[9px] flex items-center justify-center w-4 h-4 bg-primary rounded-full ring-4 ring-white"></span>
+            <p class="text-xs text-gray-400 mb-1">2026 — Sekarang</p>
+            <h3 class="font-heading font-semibold text-gray-900">Panitia Techomfest 2027</h3>
+            <p class="text-gray-500 text-sm mt-1">
+              Terlibat dalam penyelenggaraan Techomfest, kompetisi teknologi tingkat pelajar & mahasiswa
+              dengan 3 divisi lomba: Web App, UI/UX Design, dan Cyber Security (CTF).
+            </p>
+          </li>
+
+          <li class="mb-10 ml-6">
+            <span class="absolute -left-[9px] flex items-center justify-center w-4 h-4 bg-primary rounded-full ring-4 ring-white"></span>
+            <p class="text-xs text-gray-400 mb-1">[Tahun mulai] — Sekarang</p>
+            <h3 class="font-heading font-semibold text-gray-900">Anggota PCC (Politeknik Computer Club)</h3>
+            <p class="text-gray-500 text-sm mt-1">
+              Aktif di organisasi komputer kampus, terlibat dalam pengembangan software, jaringan,
+              dan pembuatan tools praktis untuk kebutuhan organisasi.
+            </p>
+          </li>
+
+          <li class="ml-6">
+            <span class="absolute -left-[9px] flex items-center justify-center w-4 h-4 bg-gray-300 rounded-full ring-4 ring-white"></span>
+            <p class="text-xs text-gray-400 mb-1">[Tahun]</p>
+            <h3 class="font-heading font-semibold text-gray-900">[Tambahkan pengalaman lain]</h3>
+            <p class="text-gray-500 text-sm mt-1">
+              [Deskripsi singkat — magang, lomba, proyek kuliah, dsb.]
+            </p>
+          </li>
+
+        </ol>
+      </div>
+    </section>
+
+    <section id="skills" class="bg-gray-50 py-20">
       <div class="max-w-4xl mx-auto px-5 sm:px-8 text-center">
         <h2 class="font-heading text-3xl font-bold text-gray-900 mb-10">Skills</h2>
         <div class="flex flex-wrap justify-center gap-3">
@@ -124,15 +145,11 @@
           <span class="skill-badge">MongoDB</span>
           <span class="skill-badge">Google Apps Script</span>
           <span class="skill-badge">Git</span>
-          <!-- Tambah skill baru: copy salah satu <span> di atas -->
         </div>
       </div>
     </section>
 
-    <!-- ======================================================
-         PROJECTS — copy 1 blok <article> untuk tambah project baru
-    ======================================================= -->
-    <section id="projects" class="bg-gray-50 py-20">
+    <section id="projects" class="py-20">
       <div class="max-w-6xl mx-auto px-5 sm:px-8">
         <h2 class="font-heading text-3xl font-bold text-gray-900 mb-10 text-center">Projects</h2>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -143,7 +160,6 @@
             </div>
             <h3 class="font-heading font-semibold text-lg text-gray-900 mb-1">Website Organisasi</h3>
             <p class="text-gray-500 text-sm mb-3">Halaman struktur organisasi interaktif memakai Next.js dan React Flow.</p>
-            <a href="#" class="text-primary text-sm font-medium hover:underline">Lihat detail →</a>
           </article>
 
           <article class="project-card">
@@ -152,7 +168,6 @@
             </div>
             <h3 class="font-heading font-semibold text-lg text-gray-900 mb-1">Productivity Dashboard</h3>
             <p class="text-gray-500 text-sm mb-3">Dashboard produktivitas terhubung Google Sheets dengan visualisasi grafik.</p>
-            <a href="#" class="text-primary text-sm font-medium hover:underline">Lihat detail →</a>
           </article>
 
           <article class="project-card">
@@ -161,45 +176,47 @@
             </div>
             <h3 class="font-heading font-semibold text-lg text-gray-900 mb-1">Nama Project Kamu</h3>
             <p class="text-gray-500 text-sm mb-3">Ganti dengan deskripsi singkat: masalah apa yang diselesaikan.</p>
-            <a href="#" class="text-primary text-sm font-medium hover:underline">Lihat detail →</a>
           </article>
 
         </div>
       </div>
     </section>
-
-    <!-- ======================================================
-         CONTACT — form ini belum tersambung backend (lihat script.js)
-    ======================================================= -->
-    <section id="contact" class="py-20">
-      <div class="max-w-xl mx-auto px-5 sm:px-8 text-center">
-        <h2 class="font-heading text-3xl font-bold text-gray-900 mb-3">Hubungi Saya</h2>
-        <p class="text-gray-500 mb-8">Ada project atau kolaborasi? Isi form di bawah, atau hubungi lewat kontak lain.</p>
-
-        <form id="contactForm" class="text-left space-y-4">
-          <input type="text" required placeholder="Nama" class="form-field">
-          <input type="email" required placeholder="Email" class="form-field">
-          <textarea required rows="4" placeholder="Pesan" class="form-field resize-none"></textarea>
-          <button type="submit" class="w-full bg-primary hover:bg-primary-dark text-white font-medium py-3 rounded-lg transition">
-            Kirim Pesan
-          </button>
-        </form>
-
-        <div class="flex justify-center gap-6 mt-8 text-sm text-gray-500">
-          <a href="#" class="hover:text-primary">GitHub</a>
-          <a href="#" class="hover:text-primary">LinkedIn</a>
-          <a href="#" class="hover:text-primary">Instagram</a>
-        </div>
-      </div>
-    </section>
-
   </main>
 
-  <!-- ======================================================
-       FOOTER
-  ======================================================= -->
-  <footer class="border-t border-gray-100 py-6 text-center text-sm text-gray-400">
-    © <span id="year"></span> Labib. Dibuat dengan Tailwind CSS.
+  <footer id="contact" class="bg-gray-900 text-gray-300 pt-16 pb-8">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8">
+      <div class="grid sm:grid-cols-3 gap-10 pb-12 border-b border-gray-800">
+
+        <div>
+          <p class="font-heading font-bold text-xl text-white mb-3">Labib<span class="text-blue-500">.</span></p>
+          <p class="text-gray-400 text-sm leading-relaxed max-w-xs">
+            Terbuka untuk kolaborasi, magang, atau sekadar diskusi seputar teknologi.
+          </p>
+        </div>
+
+        <div>
+          <p class="text-white text-sm font-semibold mb-4">Navigasi</p>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#about" class="text-gray-400 hover:text-blue-400 transition">Tentang</a></li>
+            <li><a href="#experience" class="text-gray-400 hover:text-blue-400 transition">Pengalaman</a></li>
+            <li><a href="#projects" class="text-gray-400 hover:text-blue-400 transition">Projects</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="text-white text-sm font-semibold mb-4">Kontak</p>
+          <ul class="space-y-2 text-sm">
+            <li><a href="mailto:emailkamu@gmail.com" class="text-gray-400 hover:text-blue-400 transition">Email</a></li>
+            <li><a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="text-gray-400 hover:text-blue-400 transition">WhatsApp</a></li>
+            <li><a href="https://linkedin.com/in/username-kamu" target="_blank" rel="noopener" class="text-gray-400 hover:text-blue-400 transition">LinkedIn</a></li>
+            <li><a href="https://github.com/username-kamu" target="_blank" rel="noopener" class="text-gray-400 hover:text-blue-400 transition">GitHub</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <p class="text-gray-500 text-xs text-center pt-6">© <span id="year"></span> Labib. Dibuat dengan Tailwind CSS.</p>
+    </div>
   </footer>
 
   <script src="script.js"></script>
