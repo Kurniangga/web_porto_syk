@@ -1,4 +1,4 @@
-/* Font override: Inter untuk body, Poppins untuk heading (.font-heading) */
+/* Font override */
 body {
   font-family: 'Inter', sans-serif;
 }
@@ -10,7 +10,7 @@ h3,
   font-family: 'Poppins', sans-serif;
 }
 
-/* Aksesibilitas: outline jelas saat elemen di-fokus pakai keyboard (Tab) */
+/* outline burger menu */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
@@ -19,9 +19,6 @@ textarea:focus-visible {
   outline-offset: 2px;
 }
 
-/* Animasi Hamburger menu */
-
-/* Bentuk dasar dari setiap garis hamburger */
 .hamburger-line {
   display: block;
   width: 28px;
@@ -29,20 +26,4 @@ textarea:focus-visible {
   background-color: #1f2937;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transform-origin: center;
-}
-
-/* Garis atas berputar 45 derajat ke kanan dan bergeser ke tengah */
-#menuBtn.active .hamburger-line:nth-child(1) {
-  transform: translateY(8px) rotate(45deg);
-}
-
-/* Garis tengah menghilang dan memudar */
-#menuBtn.active .hamburger-line:nth-child(2) {
-  opacity: 0;
-  transform: scale(0);
-}
-
-/* Garis bawah berputar 45 derajat ke kiri dan bergeser ke tengah */
-#menuBtn.active .hamburger-line:nth-child(3) {
-  transform: translateY(-8px) rotate(-45deg);
 }
