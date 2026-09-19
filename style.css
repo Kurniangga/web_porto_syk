@@ -1,29 +1,311 @@
-/* Font override */
-body {
-  font-family: 'Inter', sans-serif;
+/* =========================================================
+   style.css — pelengkap Tailwind (animasi & komponen khusus)
+   ========================================================= */
+
+/* ---------- Dasar ---------- */
+html {
+  scroll-behavior: smooth;
 }
 
-h1,
-h2,
-h3,
-.font-heading {
-  font-family: 'Poppins', sans-serif;
+/* Supaya judul section tidak tertutup navbar saat klik link anchor */
+section[id],
+footer[id] {
+  scroll-margin-top: 4rem;
 }
 
-/* outline burger menu */
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid #4F46E5;
-  outline-offset: 2px;
+::selection {
+  background: #4f46e5;
+  color: #fff;
 }
 
+
+/* ---------- Navbar ---------- */
+#navbar.nav-scrolled {
+  box-shadow: 0 8px 24px -16px rgba(15, 23, 42, 0.45);
+}
+
+/* Garis kuning di bawah link desktop (hover & section aktif) */
+#desktopNav .nav-link {
+  position: relative;
+  padding: 0.25rem 0;
+}
+
+#desktopNav .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 2px;
+  background: #f59e0b;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+#desktopNav .nav-link:hover::after,
+#desktopNav .nav-link.active::after {
+  transform: scaleX(1);
+}
+
+#desktopNav .nav-link.active,
+#mobileMenu .nav-link.active {
+  color: #4f46e5;
+}
+
+.dark #desktopNav .nav-link.active,
+.dark #mobileMenu .nav-link.active {
+  color: #818cf8;
+}
+
+
+/* ---------- Burger menu -> ikon X ---------- */
 .hamburger-line {
   display: block;
-  width: 28px;
-  height: 2.5px;
-  background-color: #1f2937;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  transform-origin: center;
+  width: 20px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 0.3s ease, opacity 0.2s ease;
+}
+
+/* Jarak antar garis = 2px (tinggi) + 6px (gap-1.5) = 8px */
+#menuBtn[aria-expanded="true"] .hamburger-line:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+#menuBtn[aria-expanded="true"] .hamburger-line:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+#menuBtn[aria-expanded="true"] .hamburger-line:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+
+/* ---------- Menu mobile (buka/tutup halus) ---------- */
+.mobile-menu {
+  max-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  transition: max-height 0.35s ease, visibility 0.35s;
+}
+
+.mobile-menu.open {
+  max-height: 420px;
+  visibility: visible;
+}
+
+
+/* ---------- Hero: animasi masuk (sekali saat halaman dibuka) ---------- */
+.hero-in {
+  animation: heroIn 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+
+@keyframes heroIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+/* ---------- Hero: gelombang listrik ---------- */
+:root {
+  /* Satu periode gelombang sinus, dipakai sebagai mask */
+  --wave-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='80' viewBox='0 0 600 80'%3E%3Cpath d='M0 40C50 4 100 4 150 40S250 76 300 40S400 4 450 40S550 76 600 40' fill='none' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+.wave-wrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 96px;
+  pointer-events: none;
+}
+
+.wave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-mask-image: var(--wave-img);
+  mask-image: var(--wave-img);
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+}
+
+.wave-a {
+  height: 80px;
+  background: #4f46e5;
+  -webkit-mask-size: 600px 80px;
+  mask-size: 600px 80px;
+  animation: waveA 18s linear infinite;
+}
+
+.wave-b {
+  height: 64px;
+  bottom: 8px;
+  background: #f59e0b;
+  -webkit-mask-size: 800px 64px;
+  mask-size: 800px 64px;
+  animation: waveB 26s linear infinite;
+}
+
+.dark .wave-a {
+  background: #818cf8;
+}
+
+@keyframes waveA {
+  to {
+    -webkit-mask-position: 600px 0;
+    mask-position: 600px 0;
+  }
+}
+
+@keyframes waveB {
+  to {
+    -webkit-mask-position: -800px 0;
+    mask-position: -800px 0;
+  }
+}
+
+
+/* ---------- Skills ---------- */
+.skill-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+.skill-chip:hover {
+  border-color: #4f46e5;
+  color: #4f46e5;
+}
+
+.dark .skill-chip {
+  color: #cbd5e1;
+  background: #0f172a;
+  border-color: #334155;
+}
+
+.dark .skill-chip:hover {
+  border-color: #818cf8;
+  color: #a5b4fc;
+}
+
+
+/* ---------- Carousel project ---------- */
+.carousel-track {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+}
+
+.carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-track:focus-visible {
+  outline: 2px solid #4f46e5;
+  outline-offset: 6px;
+  border-radius: 1rem;
+}
+
+/* Lebar card: 1 (mobile, sebagian card berikutnya mengintip), 2 (tablet), 3 (desktop). Jarak antar card = gap-6 (1.5rem) */
+.project-card {
+  flex: 0 0 85%;
+}
+
+@media (min-width: 640px) {
+  .project-card {
+    flex-basis: calc((100% - 1.5rem) / 2);
+  }
+}
+
+@media (min-width: 1024px) {
+  .project-card {
+    flex-basis: calc((100% - 3rem) / 3);
+  }
+}
+
+/* Label teknologi kecil di dalam card */
+.tag {
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 0.35rem 0.5rem;
+  border-radius: 0.375rem;
+  color: #4b5563;
+  border: 1px solid #e5e7eb;
+}
+
+.dark .tag {
+  color: #94a3b8;
+  border-color: #334155;
+}
+
+/* Indikator posisi carousel */
+.carousel-dot {
+  position: relative;
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 9999px;
+  background: #cbd5e1;
+  transition: width 0.25s ease, background-color 0.25s ease;
+}
+
+/* Perbesar area tap tanpa mengubah tampilan */
+.carousel-dot::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+}
+
+.carousel-dot.active {
+  width: 1.75rem;
+  background: #4f46e5;
+}
+
+.dark .carousel-dot {
+  background: #334155;
+}
+
+.dark .carousel-dot.active {
+  background: #818cf8;
+}
+
+
+/* ---------- Hormati preferensi "kurangi animasi" ---------- */
+@media (prefers-reduced-motion: reduce) {
+
+  .hero-in,
+  .wave-a,
+  .wave-b {
+    animation: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  .mobile-menu,
+  .hamburger-line,
+  .carousel-dot {
+    transition: none;
+  }
 }

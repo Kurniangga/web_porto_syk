@@ -5,16 +5,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dimas — Portfolio</title>
+  <meta name="description" content="Portfolio Dimas, mahasiswa D4 Rekayasa Pembangkit Energi Politeknik Negeri Semarang.">
+
+  <!-- Terapkan tema yang tersimpan sedini mungkin supaya halaman tidak berkedip saat dimuat -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("theme");
+        var systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (saved === "dark" || (!saved && systemDark)) {
+          document.documentElement.classList.add("dark");
+        }
+      } catch (err) {}
+    })();
+  </script>
 
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: "class", // dark mode aktif lewat class "dark" di <html>
       theme: {
         extend: {
           colors: {
             primary: "#4F46E5",
-            "primary-dark": "#4338CA"
+            "primary-dark": "#4338CA",
+            volt: "#F59E0B" // aksen kuning listrik
+          },
+          fontFamily: {
+            heading: ["Poppins", "sans-serif"],
+            sans: ["Inter", "sans-serif"]
           }
         }
       }
@@ -22,264 +42,463 @@
   </script>
 
   <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap"
     rel="stylesheet">
 
   <!-- Link CSS External -->
   <link rel="stylesheet" href="style.css">
-
 </head>
 
-<body>
-  <!-- Navbar -->
+<body class="bg-white text-gray-600 dark:bg-slate-950 dark:text-slate-400 font-sans antialiased transition-colors duration-300">
 
-  <header class="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur border-b border-gray-100">
+  <!-- ===================== Navbar ===================== -->
+  <header id="navbar"
+    class="fixed top-0 inset-x-0 z-50 bg-white/85 dark:bg-slate-950/85 backdrop-blur border-b border-gray-100 dark:border-slate-800 transition-colors duration-300">
     <div class="max-w-6xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
 
       <!-- Logo Navbar -->
-      <a href="#home" class="font-heading font-bold text-lg text-gray-900">Dimas<span class="text-primary">Pratama</span></a>
+      <a href="#home" class="font-heading font-bold text-lg text-gray-900 dark:text-white">Dimas<span
+          class="text-primary dark:text-indigo-400">Pratama</span></a>
 
       <!-- Menu navigasi Desktop -->
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
-        <a href="#about" class="hover:text-primary transition">Tentang</a>
-        <a href="#experience" class="hover:text-primary transition">Pengalaman</a>
-        <a href="#skills" class="hover:text-primary transition">Skills</a>
-        <a href="#projects" class="hover:text-primary transition">Projects</a>
-        <a href="#contact" class="hover:text-primary transition">Kontak</a>
+      <nav id="desktopNav" class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a href="#about" class="nav-link text-gray-600 dark:text-slate-300 hover:text-primary dark:hover:text-indigo-400 transition">Tentang</a>
+        <a href="#experience" class="nav-link text-gray-600 dark:text-slate-300 hover:text-primary dark:hover:text-indigo-400 transition">Pengalaman</a>
+        <a href="#skills" class="nav-link text-gray-600 dark:text-slate-300 hover:text-primary dark:hover:text-indigo-400 transition">Skills</a>
+        <a href="#projects" class="nav-link text-gray-600 dark:text-slate-300 hover:text-primary dark:hover:text-indigo-400 transition">Projects</a>
+        <a href="#contact" class="nav-link text-gray-600 dark:text-slate-300 hover:text-primary dark:hover:text-indigo-400 transition">Kontak</a>
       </nav>
 
-      <!-- Tombol download resume, versi desktop -->
-      <div class="hidden md:block">
+      <div class="flex items-center gap-2">
+        <!-- Tombol download resume, versi desktop -->
         <a href="assets/CV_LabibFauzi_Software_Workshop.pdf" download
-          class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-sm font-medium px-4 py-2 rounded-lg transition">
+          class="hidden md:inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-sm font-medium px-4 py-2 rounded-lg transition">
           Download Resume
         </a>
-      </div>
 
-      <!-- Tombol hamburger -->
-      <button id="menuBtn"
-        class="md:hidden w-7 h-7 flex flex-col justify-center items-center gap-1.5 focus:outline-none"
-        aria-label="Toggle Menu" aria-expanded="false">
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-      </button>
+        <!-- Tombol toggle Dark / Light mode -->
+        <button id="themeToggle" type="button" aria-pressed="false" aria-label="Ganti ke mode gelap"
+          class="w-10 h-10 rounded-full flex items-center justify-center border border-gray-200 dark:border-slate-700 text-gray-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+          <!-- Ikon bulan (tampil saat mode terang) -->
+          <svg class="w-5 h-5 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+          <!-- Ikon matahari (tampil saat mode gelap) -->
+          <svg class="w-5 h-5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
+        </button>
+
+        <!-- Tombol hamburger (berubah jadi X saat menu terbuka, lihat style.css) -->
+        <button id="menuBtn" type="button"
+          class="md:hidden w-10 h-10 rounded-full flex flex-col justify-center items-center gap-1.5 text-gray-800 dark:text-slate-100 hover:bg-gray-100 dark:hover:bg-slate-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          aria-label="Buka menu" aria-expanded="false" aria-controls="mobileMenu">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
     </div>
 
     <!-- Menu navigasi Mobile -->
-    <nav id="mobileMenu"
-      class="hidden md:hidden flex-col gap-1 px-5 pb-4 text-sm font-medium bg-white border-t border-gray-100">
-      <a href="#about" class="block py-2">Tentang</a>
-      <a href="#experience" class="block py-2">Pengalaman</a>
-      <a href="#skills" class="block py-2">Skills</a>
-      <a href="#projects" class="block py-2">Projects</a>
-      <a href="#contact" class="block py-2">Kontak</a>
-      <a href="assets/CV_LabibFauzi_Software_Workshop.pdf" download
-        class="block py-2 text-primary font-semibold">Download Resume</a>
+    <nav id="mobileMenu" class="mobile-menu md:hidden bg-white dark:bg-slate-950" aria-hidden="true">
+      <div class="flex flex-col gap-1 px-5 py-4 text-sm font-medium border-t border-gray-100 dark:border-slate-800">
+        <a href="#about" class="nav-link block py-2 text-gray-700 dark:text-slate-300">Tentang</a>
+        <a href="#experience" class="nav-link block py-2 text-gray-700 dark:text-slate-300">Pengalaman</a>
+        <a href="#skills" class="nav-link block py-2 text-gray-700 dark:text-slate-300">Skills</a>
+        <a href="#projects" class="nav-link block py-2 text-gray-700 dark:text-slate-300">Projects</a>
+        <a href="#contact" class="nav-link block py-2 text-gray-700 dark:text-slate-300">Kontak</a>
+        <a href="assets/CV_LabibFauzi_Software_Workshop.pdf" download
+          class="block py-2 text-primary dark:text-indigo-400 font-semibold">Download Resume</a>
+      </div>
     </nav>
   </header>
 
-  <main class="pt-16">
+  <main>
 
-    <!-- Hero section -->
+    <!-- ===================== Hero section ===================== -->
+    <section id="home" class="relative overflow-hidden">
+      <div
+        class="relative max-w-6xl mx-auto px-5 sm:px-8 pt-32 pb-40 sm:pt-40 sm:pb-44 grid md:grid-cols-2 gap-14 items-center">
 
-    <section id="home" class="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28 grid sm:grid-cols-2 gap-10 items-center">
-      <div>
-        <p class="text-primary font-medium mb-3">Halo, Friend 👋</p>
-        <h1 class="font-heading text-4xl sm:text-5xl font-bold text-gray-900 leading-tight mb-4">
-          Dimas —<br>Mahasiswa Pembangkit Energi PLN
-        </h1>
-        <p class="text-gray-500 text-base sm:text-lg mb-8 max-w-md">
-          Membangun pembangkit energi tenaga uap yang fleksibel dan ramah lingkungan.
-        </p>
+        <div>
+          <p class="hero-in inline-flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-slate-200 border border-gray-200 dark:border-slate-700 rounded-full px-3 py-1 mb-6"
+            style="--d:0ms">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            Terbuka untuk kolaborasi &amp; magang
+          </p>
+          <p class="hero-in text-primary dark:text-indigo-400 font-medium mb-3" style="--d:80ms">Halo, Friend 👋</p>
+          <h1
+            class="hero-in font-heading text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.12] mb-5"
+            style="--d:160ms">
+            Dimas —<br>Mahasiswa Pembangkit Energi PLN
+          </h1>
+          <p class="hero-in text-gray-600 dark:text-slate-400 text-base sm:text-lg mb-8 max-w-md" style="--d:240ms">
+            Membangun pembangkit energi tenaga uap yang fleksibel dan ramah lingkungan.
+          </p>
 
-        <!-- Tombol Download cv dan ke project -->
-        <div class="flex flex-wrap gap-3">
-          <a href="assets/CV_LabibFauzi_Software_Workshop.pdf" download
-            class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-sm font-medium px-5 py-3 rounded-lg transition">
-            Tentang Gweh
-          </a>
-          <a href="/project.html"
-            class="inline-flex items-center gap-2 border border-gray-200 hover:border-primary hover:text-primary text-sm font-medium px-5 py-3 rounded-lg transition">
-            MyProjects Gweh
-          </a>
+          <!-- Tombol Download CV dan ke project -->
+          <div class="hero-in flex flex-wrap gap-3" style="--d:320ms">
+            <a href="assets/CV_LabibFauzi_Software_Workshop.pdf" download
+              class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-sm font-medium px-5 py-3 rounded-xl transition">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Download CV
+            </a>
+            <a href="#projects"
+              class="inline-flex items-center gap-2 border border-gray-300 dark:border-slate-700 text-gray-800 dark:text-slate-100 hover:border-primary hover:text-primary dark:hover:border-indigo-400 dark:hover:text-indigo-400 text-sm font-medium px-5 py-3 rounded-xl transition">
+              Lihat Project
+            </a>
+          </div>
+        </div>
+
+        <!-- Foto profil -->
+        <div class="hero-in relative mx-auto w-full max-w-sm md:max-w-md" style="--d:200ms">
+          <div class="absolute inset-0 translate-x-4 translate-y-4 sm:translate-x-5 sm:translate-y-5 rounded-3xl bg-volt"
+            aria-hidden="true"></div>
+          <div
+            class="relative aspect-square rounded-3xl overflow-hidden bg-gray-100 dark:bg-slate-800 border-2 border-gray-900 dark:border-slate-100">
+            <img src="assets/meow.jpg" alt="Foto Dimas" class="w-full h-full object-cover">
+          </div>
         </div>
       </div>
 
-      <!-- foto profil-->
-      <div class="bg-gray-100 rounded-2xl aspect-square flex items-center justify-center text-gray-400 text-sm">
-        <img src="assets/meow.jpg" class="object-center rounded-xl" alt="">
+      <!-- Gelombang listrik (dekorasi, murni CSS) -->
+      <div class="wave-wrap" aria-hidden="true">
+        <div class="wave wave-a"></div>
+        <div class="wave wave-b"></div>
       </div>
     </section>
 
-    <!-- About section -->
-    <section id="about" class="bg-gray-50 py-20">
-      <div class="max-w-4xl mx-auto px-5 sm:px-8 text-center">
-        <h2 class="font-heading text-3xl font-bold text-gray-900 mb-4">About Aing</h2>
-        <p class="text-gray-500 leading-relaxed">
-          Saya mahasiswa D4 Pembangkit Energi yang sangattt aktiff sekali untuk membuat pembangkit energi yang berguna bagi Indonesia.
-          <br><br>
-          <span class="text-gray-400 italic">[Ganti paragraf ini dengan cerita singkat versi kamu]</span>
-        </p>
+    <!-- ===================== About section ===================== -->
+    <section id="about" class="bg-gray-50 dark:bg-slate-900/50 py-24">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8 grid md:grid-cols-5 gap-10 md:gap-16">
+
+        <div class="md:col-span-2">
+          <h2 class="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white">About Aing</h2>
+        </div>
+
+        <div class="md:col-span-3">
+          <p class="text-lg leading-relaxed mb-8 max-w-prose">
+            Saya mahasiswa D4 Pembangkit Energi yang sangat aktif sekali untuk membuat pembangkit energi yang berguna
+            bagi Indonesia. Selain itu, sepertinya saya juga bisa menjelma jadi atlet panjat tebing.
+          </p>
+
+          <dl class="border-t border-gray-200 dark:border-slate-800">
+            <div class="grid grid-cols-3 gap-4 py-4 border-b border-gray-200 dark:border-slate-800">
+              <dt class="text-sm text-gray-500 dark:text-slate-500">Kuliah</dt>
+              <dd class="col-span-2 font-medium text-gray-900 dark:text-slate-100">D4 Rekayasa Pembangkit Energi,
+                Politeknik Negeri Semarang</dd>
+            </div>
+            <div class="grid grid-cols-3 gap-4 py-4 border-b border-gray-200 dark:border-slate-800">
+              <dt class="text-sm text-gray-500 dark:text-slate-500">Organisasi</dt>
+              <dd class="col-span-2 font-medium text-gray-900 dark:text-slate-100">Staff Divisi Workshop UKM PCC
+                2026/2027</dd>
+            </div>
+            <div class="grid grid-cols-3 gap-4 py-4 border-b border-gray-200 dark:border-slate-800">
+              <dt class="text-sm text-gray-500 dark:text-slate-500">Di luar kelas</dt>
+              <dd class="col-span-2 font-medium text-gray-900 dark:text-slate-100">Panjat tebing</dd>
+            </div>
+          </dl>
+        </div>
       </div>
     </section>
 
-    <!-- Experience section -->
-
-    <section id="experience" class="py-20">
+    <!-- ===================== Experience section ===================== -->
+    <section id="experience" class="py-24">
       <div class="max-w-3xl mx-auto px-5 sm:px-8">
-        <h2 class="font-heading text-3xl font-bold text-gray-900 mb-2 text-center">Pengalaman</h2>
-        <p class="text-gray-500 text-center mb-12">Perjalanan singkat di organisasi dan program studi</p>
-        <ol class="relative border-l-2 border-gray-200 ml-3">
+        <h2 class="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white mb-2">Experience</h2>
+        <p class="text-gray-500 dark:text-slate-500 mb-12">Perjalanan singkat di dunia</p>
+
+        <ol class="relative border-l-2 border-gray-200 dark:border-slate-800 ml-3">
 
           <!-- Item 1 -->
-          <li class="mb-10 ml-6">
+          <li class="relative ml-8 pb-10">
             <span
-              class="absolute -left-[9px] flex items-center justify-center w-4 h-4 bg-primary rounded-full ring-4 ring-white"></span>
-            <p class="text-xs text-gray-400 mb-1">2021 - 2024</p>
-            <h3 class="font-heading font-semibold text-gray-900">SMK 8 Semarang</h3>
-            <p class="text-gray-500 text-sm mt-1">
-              Saya bersekolah di SMK 8 Semarang Jurusan PPLG.
+              class="absolute -left-[41px] top-1 w-4 h-4 bg-primary rounded-full ring-4 ring-white dark:ring-slate-950"></span>
+            <p class="text-sm text-gray-500 dark:text-slate-500 mb-1">2022 - 2025</p>
+            <h3 class="font-heading font-semibold text-lg text-gray-900 dark:text-white">SMAN 1 Baturetno</h3>
+            <p class="text-gray-600 dark:text-slate-400 mt-1">
+              Saya bersekolah di SMAN 1 Baturetno.
             </p>
           </li>
 
           <!-- Item 2 -->
-          <li class="mb-10 ml-6">
+          <li class="relative ml-8 pb-10">
             <span
-              class="absolute -left-[9px] flex items-center justify-center w-4 h-4 bg-primary rounded-full ring-4 ring-white"></span>
-            <p class="text-xs text-gray-400 mb-1">2025 — Sekarang</p>
-            <h3 class="font-heading font-semibold text-gray-900">Politeknik Negeri Semarang</h3>
-            <p class="text-gray-500 text-sm mt-1">
-              Kuliah di jurusan Teknik Elektro di prodi D3- Teknik Informatika.
+              class="absolute -left-[41px] top-1 w-4 h-4 bg-primary rounded-full ring-4 ring-white dark:ring-slate-950"></span>
+            <p class="text-sm text-gray-500 dark:text-slate-500 mb-1">2025 — Sekarang</p>
+            <h3 class="font-heading font-semibold text-lg text-gray-900 dark:text-white">Politeknik Negeri Semarang</h3>
+            <p class="text-gray-600 dark:text-slate-400 mt-1">
+              Kuliah di jurusan Teknik Elektro di prodi D4 Rekayasa Pembangkit Energi.
             </p>
           </li>
 
-          <!-- Item 3 — slot kosong, tinggal isi pengalaman lain (magang/lomba/dll) -->
-          <li class="ml-6">
+          <!-- Item 3 (terbaru, titik berwarna kuning) — tambah item lain dengan menyalin blok <li> ini -->
+          <li class="relative ml-8">
             <span
-              class="absolute -left-[9px] flex items-center justify-center w-4 h-4 bg-primary rounded-full ring-4 ring-white"></span>
-            <p class="text-xs text-gray-400 mb-1">[Tahun]</p>
-            <h3 class="font-heading font-semibold text-gray-900">[Tambahkan pengalaman lain]</h3>
-            <p class="text-gray-500 text-sm mt-1">
-              [Deskripsi singkat — magang, lomba, orginasi, dsb.]
+              class="absolute -left-[41px] top-1 w-4 h-4 bg-volt rounded-full ring-4 ring-white dark:ring-slate-950"></span>
+            <p class="text-sm text-gray-500 dark:text-slate-500 mb-1">2026</p>
+            <h3 class="font-heading font-semibold text-lg text-gray-900 dark:text-white">Staff Divisi Workshop UKM PCC
+              2026/2027</h3>
+            <p class="text-gray-600 dark:text-slate-400 mt-1">
+              Menjalankan pelatihan dan workshop untuk anggota UKM.
             </p>
           </li>
 
         </ol>
       </div>
     </section>
-    <!-- Skills section -->
 
-    <section id="skills" class="bg-gray-50 py-20">
-      <div class="max-w-4xl mx-auto px-5 sm:px-8 text-center">
-        <h2 class="font-heading text-3xl font-bold text-gray-900 mb-10">Skills</h2>
+    <!-- ===================== Skills section ===================== -->
+    <section id="skills" class="bg-gray-50 dark:bg-slate-900/50 py-24">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8">
+        <h2 class="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white mb-10">Skills</h2>
 
-        <div class="flex flex-wrap justify-center gap-3">
-          <span class="px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium">Java</span>
-          <span class="px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium">JavaScript</span>
-          <span class="px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium">TypeScript</span>
-          <span class="px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium">HTML &amp; CSS</span>
-          <span class="px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium">Tailwind CSS</span>
-          <span class="px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium">Next.js</span>
-          <span class="px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium">MongoDB</span>
-          <span class="px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium">Google Apps Script</span>
-          <span class="px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium">Git</span>
-          <span class="px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium">Bisa Roam</span>
+        <div class="flex flex-wrap gap-3">
+          <span class="skill-chip">Java</span>
+          <span class="skill-chip">JavaScript</span>
+          <span class="skill-chip">TypeScript</span>
+          <span class="skill-chip">HTML &amp; CSS</span>
+          <span class="skill-chip">Tailwind CSS</span>
+          <span class="skill-chip">Next.js</span>
+          <span class="skill-chip">MongoDB</span>
+          <span class="skill-chip">Google Apps Script</span>
+          <span class="skill-chip">Git</span>
+          <span class="skill-chip">Bisa Roam</span>
         </div>
       </div>
     </section>
 
-    <!-- Projects section -->
-
-    <section id="projects" class="py-20">
+    <!-- ===================== Projects section (Carousel) ===================== -->
+    <section id="projects" class="py-24">
       <div class="max-w-6xl mx-auto px-5 sm:px-8">
-        <h2 class="font-heading text-3xl font-bold text-gray-900 mb-10 text-center">Projects</h2>
 
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="flex items-end justify-between gap-4 mb-10">
+          <h2 class="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white">Projects</h2>
 
-          <!-- Card project 1 -->
-          <article
-            class="bg-white border border-gray-100 rounded-2xl p-5 transition duration-200 ease-in-out hover:shadow-[0_10px_25px_-10px_rgba(0,0,0,0.15)] hover:-translate-y-0.5">
-            <div
-              class="bg-gray-200 rounded-xl aspect-video mb-4 flex items-center justify-center text-gray-400 text-xs">
-              Gambar / screenshot
-            </div>
-            <h3 class="font-heading font-semibold text-lg text-gray-900 mb-1">Website Organisasi</h3>
-            <p class="text-gray-500 text-sm mb-3">Halaman struktur organisasi interaktif memakai Next.js dan React Flow.
-            </p>
-          </article>
-
-          <!-- Card project 2 -->
-          <article
-            class="bg-white border border-gray-100 rounded-2xl p-5 transition duration-200 ease-in-out hover:shadow-[0_10px_25px_-10px_rgba(0,0,0,0.15)] hover:-translate-y-0.5">
-            <div
-              class="bg-gray-200 rounded-xl aspect-video mb-4 flex items-center justify-center text-gray-400 text-xs">
-              Gambar / screenshot
-            </div>
-            <h3 class="font-heading font-semibold text-lg text-gray-900 mb-1">Productivity Dashboard</h3>
-            <p class="text-gray-500 text-sm mb-3">Dashboard produktivitas terhubung Google Sheets dengan visualisasi
-              grafik.</p>
-          </article>
-
-          <!-- Card project 3 (placeholder, ganti sesuai project kamu) -->
-          <article
-            class="bg-white border border-gray-100 rounded-2xl p-5 transition duration-200 ease-in-out hover:shadow-[0_10px_25px_-10px_rgba(0,0,0,0.15)] hover:-translate-y-0.5">
-            <div
-              class="bg-gray-200 rounded-xl aspect-video mb-4 flex items-center justify-center text-gray-400 text-xs">
-              <img src="assets/project.jpeg" alt="Screenshot Nama Project"
-                class="w-full h-full object-cover rounded-xl">
-            </div>
-            <h3 class="font-heading font-semibold text-lg text-gray-900 mb-1">Nama Project Kamu</h3>
-            <p class="text-gray-500 text-sm mb-3">Ganti dengan deskripsi singkat: masalah apa yang diselesaikan.</p>
-          </article>
-
+          <!-- Tombol panah carousel -->
+          <div class="flex gap-2 shrink-0">
+            <button id="carouselPrev" type="button" aria-label="Project sebelumnya"
+              class="carousel-btn w-11 h-11 rounded-full border border-gray-300 dark:border-slate-700 text-gray-800 dark:text-slate-100 flex items-center justify-center hover:border-primary hover:text-primary dark:hover:border-indigo-400 dark:hover:text-indigo-400 disabled:opacity-40 disabled:pointer-events-none transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <button id="carouselNext" type="button" aria-label="Project berikutnya"
+              class="carousel-btn w-11 h-11 rounded-full border border-gray-300 dark:border-slate-700 text-gray-800 dark:text-slate-100 flex items-center justify-center hover:border-primary hover:text-primary dark:hover:border-indigo-400 dark:hover:text-indigo-400 disabled:opacity-40 disabled:pointer-events-none transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+          </div>
         </div>
+
+        <div role="region" aria-label="Daftar project">
+          <!--
+            Track carousel. Geser dengan swipe, scroll horizontal, tombol panah, atau tombol keyboard ← →.
+            Untuk menambah project: salin satu blok <article class="project-card ..."> lalu ganti isinya.
+          -->
+          <div id="carouselTrack"
+            class="carousel-track flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pt-3 pb-4 -mt-3"
+            tabindex="0">
+
+            <!-- Card project 1 -->
+            <article
+              class="project-card snap-start bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl overflow-hidden hover:border-primary dark:hover:border-indigo-400 transition-colors">
+              <div class="aspect-video bg-gray-200 dark:bg-slate-800 overflow-hidden">
+                <!-- GANTI src dengan foto project kamu, contoh: assets/project-1.jpg -->
+                <img src="https://picsum.photos/seed/porto-1/640/360" alt="Screenshot Website Organisasi"
+                  loading="lazy" draggable="false" class="w-full h-full object-cover">
+              </div>
+              <div class="p-5">
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span class="tag">Next.js</span>
+                  <span class="tag">React Flow</span>
+                </div>
+                <h3 class="font-heading font-semibold text-lg text-gray-900 dark:text-white mb-1">Website Organisasi</h3>
+                <p class="text-gray-600 dark:text-slate-400 text-sm mb-4">Halaman struktur organisasi interaktif
+                  memakai Next.js dan React Flow.</p>
+                <a href="#projects"
+                  class="text-sm font-medium text-primary dark:text-indigo-400 underline underline-offset-4 decoration-primary/30 hover:decoration-primary">Lihat
+                  project</a>
+              </div>
+            </article>
+
+            <!-- Card project 2 -->
+            <article
+              class="project-card snap-start bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl overflow-hidden hover:border-primary dark:hover:border-indigo-400 transition-colors">
+              <div class="aspect-video bg-gray-200 dark:bg-slate-800 overflow-hidden">
+                <img src="https://picsum.photos/seed/porto-2/640/360" alt="Screenshot Productivity Dashboard"
+                  loading="lazy" draggable="false" class="w-full h-full object-cover">
+              </div>
+              <div class="p-5">
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span class="tag">Apps Script</span>
+                  <span class="tag">Google Sheets</span>
+                </div>
+                <h3 class="font-heading font-semibold text-lg text-gray-900 dark:text-white mb-1">Productivity Dashboard</h3>
+                <p class="text-gray-600 dark:text-slate-400 text-sm mb-4">Dashboard produktivitas terhubung Google
+                  Sheets dengan visualisasi grafik.</p>
+                <a href="#projects"
+                  class="text-sm font-medium text-primary dark:text-indigo-400 underline underline-offset-4 decoration-primary/30 hover:decoration-primary">Lihat
+                  project</a>
+              </div>
+            </article>
+
+            <!-- Card project 3 (placeholder, ganti sesuai project kamu) -->
+            <article
+              class="project-card snap-start bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl overflow-hidden hover:border-primary dark:hover:border-indigo-400 transition-colors">
+              <div class="aspect-video bg-gray-200 dark:bg-slate-800 overflow-hidden">
+                <img src="https://picsum.photos/seed/porto-3/640/360" alt="Screenshot Nama Project"
+                  loading="lazy" draggable="false" class="w-full h-full object-cover">
+              </div>
+              <div class="p-5">
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span class="tag">Teknologi 1</span>
+                  <span class="tag">Teknologi 2</span>
+                </div>
+                <h3 class="font-heading font-semibold text-lg text-gray-900 dark:text-white mb-1">Nama Project Kamu</h3>
+                <p class="text-gray-600 dark:text-slate-400 text-sm mb-4">Ganti dengan deskripsi singkat: masalah apa
+                  yang diselesaikan.</p>
+                <a href="#projects"
+                  class="text-sm font-medium text-primary dark:text-indigo-400 underline underline-offset-4 decoration-primary/30 hover:decoration-primary">Lihat
+                  project</a>
+              </div>
+            </article>
+
+            <!-- Card project 4 (placeholder) -->
+            <article
+              class="project-card snap-start bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl overflow-hidden hover:border-primary dark:hover:border-indigo-400 transition-colors">
+              <div class="aspect-video bg-gray-200 dark:bg-slate-800 overflow-hidden">
+                <img src="https://picsum.photos/seed/porto-4/640/360" alt="Screenshot Nama Project"
+                  loading="lazy" draggable="false" class="w-full h-full object-cover">
+              </div>
+              <div class="p-5">
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span class="tag">Teknologi 1</span>
+                  <span class="tag">Teknologi 2</span>
+                </div>
+                <h3 class="font-heading font-semibold text-lg text-gray-900 dark:text-white mb-1">Nama Project Kamu</h3>
+                <p class="text-gray-600 dark:text-slate-400 text-sm mb-4">Ganti dengan deskripsi singkat: masalah apa
+                  yang diselesaikan.</p>
+                <a href="#projects"
+                  class="text-sm font-medium text-primary dark:text-indigo-400 underline underline-offset-4 decoration-primary/30 hover:decoration-primary">Lihat
+                  project</a>
+              </div>
+            </article>
+
+            <!-- Card project 5 (placeholder) -->
+            <article
+              class="project-card snap-start bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl overflow-hidden hover:border-primary dark:hover:border-indigo-400 transition-colors">
+              <div class="aspect-video bg-gray-200 dark:bg-slate-800 overflow-hidden">
+                <img src="https://picsum.photos/seed/porto-5/640/360" alt="Screenshot Nama Project"
+                  loading="lazy" draggable="false" class="w-full h-full object-cover">
+              </div>
+              <div class="p-5">
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span class="tag">Teknologi 1</span>
+                  <span class="tag">Teknologi 2</span>
+                </div>
+                <h3 class="font-heading font-semibold text-lg text-gray-900 dark:text-white mb-1">Nama Project Kamu</h3>
+                <p class="text-gray-600 dark:text-slate-400 text-sm mb-4">Ganti dengan deskripsi singkat: masalah apa
+                  yang diselesaikan.</p>
+                <a href="#projects"
+                  class="text-sm font-medium text-primary dark:text-indigo-400 underline underline-offset-4 decoration-primary/30 hover:decoration-primary">Lihat
+                  project</a>
+              </div>
+            </article>
+
+            <!-- Card project 6 (placeholder) -->
+            <article
+              class="project-card snap-start bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl overflow-hidden hover:border-primary dark:hover:border-indigo-400 transition-colors">
+              <div class="aspect-video bg-gray-200 dark:bg-slate-800 overflow-hidden">
+                <img src="https://picsum.photos/seed/porto-6/640/360" alt="Screenshot Nama Project"
+                  loading="lazy" draggable="false" class="w-full h-full object-cover">
+              </div>
+              <div class="p-5">
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span class="tag">Teknologi 1</span>
+                  <span class="tag">Teknologi 2</span>
+                </div>
+                <h3 class="font-heading font-semibold text-lg text-gray-900 dark:text-white mb-1">Nama Project Kamu</h3>
+                <p class="text-gray-600 dark:text-slate-400 text-sm mb-4">Ganti dengan deskripsi singkat: masalah apa
+                  yang diselesaikan.</p>
+                <a href="#projects"
+                  class="text-sm font-medium text-primary dark:text-indigo-400 underline underline-offset-4 decoration-primary/30 hover:decoration-primary">Lihat
+                  project</a>
+              </div>
+            </article>
+
+          </div>
+
+          <!-- Indikator posisi (dibuat otomatis oleh script.js) -->
+          <div id="carouselDots" class="flex justify-center gap-2 mt-4"></div>
+        </div>
+
       </div>
     </section>
   </main>
 
 
-  <!-- Footer -->
-
-  <footer id="contact" class="bg-gray-900 text-gray-300 pt-16 pb-8">
+  <!-- ===================== Footer ===================== -->
+  <footer id="contact" class="bg-gray-900 dark:bg-slate-900 text-gray-300 pt-16 pb-8 border-t border-transparent dark:border-slate-800">
     <div class="max-w-6xl mx-auto px-5 sm:px-8">
 
       <div class="grid sm:grid-cols-3 gap-10 pb-12 border-b border-gray-800">
 
         <!-- Kolom 1: nama & tagline -->
         <div>
-          <p class="font-heading font-bold text-xl text-white mb-3">Labib<span class="text-blue-500">.</span></p>
+          <p class="font-heading font-bold text-xl text-white mb-3">Dimas<span class="text-volt">.</span></p>
           <p class="text-gray-400 text-sm leading-relaxed max-w-xs">
             Terbuka untuk kolaborasi, magang, atau sekadar diskusi seputar teknologi.
           </p>
         </div>
 
-        <!-- Kolom 2: link navigasi  -->
+        <!-- Kolom 2: link navigasi -->
         <div>
           <p class="text-white text-sm font-semibold mb-4">Navigasi</p>
           <ul class="space-y-2 text-sm">
-            <li><a href="#about" class="text-gray-400 hover:text-blue-400 transition">Tentang</a></li>
-            <li><a href="#experience" class="text-gray-400 hover:text-blue-400 transition">Pengalaman</a></li>
-            <li><a href="#projects" class="text-gray-400 hover:text-blue-400 transition">Projects</a></li>
+            <li><a href="#about" class="text-gray-400 hover:text-white transition">Tentang</a></li>
+            <li><a href="#experience" class="text-gray-400 hover:text-white transition">Pengalaman</a></li>
+            <li><a href="#projects" class="text-gray-400 hover:text-white transition">Projects</a></li>
           </ul>
         </div>
 
-        <!-- Kolom 3: link kontak -->
+        <!-- Kolom 3: link kontak (ganti link dengan milikmu) -->
         <div>
           <p class="text-white text-sm font-semibold mb-4">Kontak</p>
           <ul class="space-y-2 text-sm">
             <li><a href="https://wa.me/6281234567890" target="_blank" rel="noopener"
-                class="text-gray-400 hover:text-blue-400 transition">WhatsApp</a></li>
+                class="text-gray-400 hover:text-white transition">WhatsApp</a></li>
             <li><a href="https://linkedin.com/in/username-kamu" target="_blank" rel="noopener"
-                class="text-gray-400 hover:text-blue-400 transition">LinkedIn</a></li>
+                class="text-gray-400 hover:text-white transition">LinkedIn</a></li>
             <li><a href="https://github.com/username-kamu" target="_blank" rel="noopener"
-                class="text-gray-400 hover:text-blue-400 transition">GitHub</a></li>
+                class="text-gray-400 hover:text-white transition">GitHub</a></li>
           </ul>
         </div>
 
       </div>
 
-      <p class="text-gray-500 text-xs text-center pt-6">© <span id="year">2006</span> Labib. Dibuat dengan Tailwind CSS.
+      <p class="text-gray-500 text-xs text-center pt-6">© <span id="year">2026</span> Dimas. Dibuat dengan Tailwind CSS.
       </p>
     </div>
   </footer>
